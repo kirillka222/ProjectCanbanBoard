@@ -1,0 +1,16 @@
+fastapi==0.111.0
+pydantic==2.8.1
+pydantic-settings==2.3.4
+starlette==0.37.2
+uvicorn==0.30.1
+email_validator==2.2.0
+SQLAlchemy==2.0.31
+asyncpg==0.29.0
+PyJWT==2.8.0
+passlib==1.7.4
+cryptography==43.0.0
+dramatiq[redis]==1.17.0
+apscheduler==3.10.4
+boto3==1.35.20
+redmail==0.6.0
+aio-pika==9.4.3
