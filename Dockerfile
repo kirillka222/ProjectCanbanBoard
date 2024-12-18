@@ -1,10 +1,20 @@
-FROM python:3.12
+# Используем официальный Python образ в качестве базового
+FROM python:3.11
 
+# Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /app
+
+# Копируем файл с зависимостями в контейнер
 COPY requirements.txt .
-RUN pip install -r requirements.txt
 
-WORKDIR /app/src
-COPY src .
+# Устанавливаем зависимости
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD [ "python", "main.py" ]
+# Копируем весь проект в контейнер
+COPY . .
+
+# Открываем порт, на котором будет работать наше приложение
+EXPOSE 8000
+
+# Команда для запуска FastAPI приложения
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

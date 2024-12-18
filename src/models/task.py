@@ -10,13 +10,8 @@ class Task(Base):
     column_id = Column(Integer, ForeignKey("columns.id"), nullable=False)
     title = Column(String, nullable=False)
     description = Column(String)
-    deadline = Column(DateTime, nullable=False, default=lambda: datetime.utcnow() + timedelta(days=3))
+    deadline = Column(
+        DateTime, nullable=False, default=lambda: datetime.utcnow() + timedelta(days=3)
+    )
 
-    column = relationship("Columns", back_populates="tasks") # 1 zadasha - 1 kolonka
-
-
-
-
-
-
-
+    column = relationship("Columns", back_populates="tasks")  # 1 zadasha - 1 kolonka

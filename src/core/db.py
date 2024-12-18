@@ -9,11 +9,10 @@ DB_URL = os.getenv("DB_URL")
 engine = create_engine(DB_URL, echo=True)
 session = sessionmaker(engine)
 
+
 class Base(DeclarativeBase):
 
-
     pass
-
 
 
 def get_db():

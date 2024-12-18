@@ -39,7 +39,6 @@ def get_user(db, username: str):
     return user
 
 
-
 def authenticate_user(db, username: str, password: str):
     user = db.scalar(select(User).where(User.user_name == username))
     if not user:

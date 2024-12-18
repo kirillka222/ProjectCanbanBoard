@@ -9,11 +9,5 @@ class Columns(Base):
     board_id = Column(Integer, ForeignKey("boards.id"), nullable=False)
     name = Column(String, nullable=False)
 
-    tasks = relationship("Task", back_populates="column") # одна колонка много задач
-    board = relationship("Board", back_populates="columns") # одна колонка одна доска
-
-
-
-
-
-
+    tasks = relationship("Task", back_populates="column")  # одна колонка много задач
+    board = relationship("Board", back_populates="columns")  # одна колонка одна доска

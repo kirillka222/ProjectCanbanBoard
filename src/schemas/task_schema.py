@@ -8,11 +8,14 @@ class TaskBase(BaseModel):
     description: Optional[str] = None
     deadline: Optional[datetime] = datetime.utcnow() + timedelta(days=3)
 
+
 class TaskCreate(TaskBase):
     pass
 
+
 class TaskUpdate(TaskBase):
     pass
+
 
 class TaskOut(TaskBase):
     id: int

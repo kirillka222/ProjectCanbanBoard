@@ -3,7 +3,6 @@ from src.models.task import Task
 from src.schemas.task_schema import TaskCreate, TaskUpdate
 
 
-
 def create_task(db: Session, task: TaskCreate, column_id: int) -> Task:
     db_task = Task(
         title=task.title,
@@ -17,14 +16,20 @@ def create_task(db: Session, task: TaskCreate, column_id: int) -> Task:
     return db_task
 
 
-def get_tasks(db: Session, column_id: int, skip: int = 0, limit: int = 10) -> list[Task]:
-    return db.query(Task).filter(Task.column_id == column_id).offset(skip).limit(limit).all()
-
+def get_tasks(
+    db: Session, column_id: int, skip: int = 0, limit: int = 10
+) -> list[Task]:
+    return (
+        db.query(Task)
+        .filter(Task.column_id == column_id)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def get_task(db: Session, task_id: int) -> Task:
     return db.query(Task).filter(Task.id == task_id).first()
-
 
 
 def update_task(db: Session, task_id: int, task_data: TaskUpdate) -> Task:
@@ -36,7 +41,6 @@ def update_task(db: Session, task_id: int, task_data: TaskUpdate) -> Task:
         db.commit()
         db.refresh(db_task)
     return db_task
-
 
 
 def delete_task(db: Session, task_id: int) -> bool:

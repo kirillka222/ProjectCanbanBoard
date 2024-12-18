@@ -1,30 +1,23 @@
+version: '3.8'
+
 services:
-  restapi:
-    image: my_backend
+  web:
     build: .
-    restart: always
-    depends_on:
-      - db
-    env_file:
-      - .env
     ports:
       - "8000:8000"
-    entrypoint: ["python3", "main.py"]
+    depends_on:
+      - db
+
   db:
     image: postgres
-    restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=my_db_name
+      POSTGRES_USER: kirill
+      POSTGRES_PASSWORD: asdqwe
+      POSTGRES_DB: canban
     ports:
       - "5432:5432"
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
-  adminer:
-    image: adminer
-    restart: always
-    depends_on:
-      - db
-    ports:
-      - '8081:8080'
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:

@@ -11,8 +11,16 @@ def create_column(db: Session, column: ColumnCreate, board_id: int) -> Columns:
     return db_column
 
 
-def get_columns(db: Session, board_id: int, skip: int = 0, limit: int = 10) -> list[Columns]:
-    return db.query(Columns).filter(Columns.board_id == board_id).offset(skip).limit(limit).all()
+def get_columns(
+    db: Session, board_id: int, skip: int = 0, limit: int = 10
+) -> list[Columns]:
+    return (
+        db.query(Columns)
+        .filter(Columns.board_id == board_id)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def get_column(db: Session, column_id: int) -> Columns:

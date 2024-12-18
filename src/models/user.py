@@ -17,21 +17,3 @@ class User(Base):
 
 
 Base = declarative_base()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

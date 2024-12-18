@@ -12,14 +12,5 @@ class Board(Base):
     description = Column(String)
     datetime = Column(DateTime, default=datetime.utcnow)
 
-    owner = relationship("User", back_populates="boards") # 1 польз много досок
-    columns = relationship("Columns", back_populates="board") # 1 доска много колонок
-
-
-
-
-
-
-
-
-
+    owner = relationship("User", back_populates="boards")  # 1 польз много досок
+    columns = relationship("Columns", back_populates="board")  # 1 доска много колонок

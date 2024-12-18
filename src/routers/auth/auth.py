@@ -10,7 +10,12 @@ from pydantic import BaseModel
 from sqlalchemy import insert, delete, update
 
 from src.schemas import UserInDB, TokenData, Token
-from src.routers.auth.utils import authenticate_user, create_access_token, get_current_active_user, get_current_user
+from src.routers.auth.utils import (
+    authenticate_user,
+    create_access_token,
+    get_current_active_user,
+    get_current_user,
+)
 from sqlalchemy.orm import Session
 from fastapi import Depends
 from src.core.db import get_db
@@ -23,14 +28,16 @@ router = APIRouter(prefix="/demo_auth", tags=["auth"])
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
-@router.post("/create",
-             status_code=204)
+@router.post("/create", status_code=204)
 def create_user(db: Annotated[Session, Depends(get_db)], user: PydanticUser):
-    db.execute(insert(User).values(user_name=user.username,
-                                         email=user.email,
-                                         hashed_password=get_password_hash(user.password),
-                                         full_name=user.full_name,
-                                         ))
+    db.execute(
+        insert(User).values(
+            user_name=user.username,
+            email=user.email,
+            hashed_password=get_password_hash(user.password),
+            full_name=user.full_name,
+        )
+    )
 
     db.commit()
 
@@ -38,7 +45,7 @@ def create_user(db: Annotated[Session, Depends(get_db)], user: PydanticUser):
 @router.post("/token")
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-        db: Annotated[Session, Depends(get_db)]
+    db: Annotated[Session, Depends(get_db)],
 ) -> Token:
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
@@ -67,6 +74,7 @@ async def read_own_items(
 ):
     return [{"item_id": "Foo", "owner": current_user.user_name}]
 
+
 @router.delete("/users/delete/{userID}")
 def delete_user(db: Annotated[Session, Depends(get_db)], userID: int):
     db.execute(delete(User).where(User.id == userID))
@@ -75,11 +83,19 @@ def delete_user(db: Annotated[Session, Depends(get_db)], userID: int):
 
 
 @router.put("/users/put/{userID}")
-def put_user(db: Annotated[Session, Depends(get_db)],
-             current_user:Annotated[User, Depends(get_current_user)],
-             userID: int, user_scheme: PydanticUser):
-    db.execute(update(User).where(User.id == userID).values(user_name=user_scheme.username, email=user_scheme.email))
+def put_user(
+    db: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[User, Depends(get_current_user)],
+    userID: int,
+    user_scheme: PydanticUser,
+):
+    db.execute(
+        update(User)
+        .where(User.id == userID)
+        .values(user_name=user_scheme.username, email=user_scheme.email)
+    )
     db.commit()
     return {"msg": f"Успешно обновлено {userID}"}
+
 
 # get post put delete.
